@@ -8,6 +8,7 @@ import os
 import random
 import sys
 import time
+import urllib2
 
 import numpy
 
@@ -75,14 +76,18 @@ class Pagodo:
 
                 self.total_dorks += len(self.links)
 
-                # Only save links with valid results to an output file.
+                 # Save links with valid results to an output file and download the file.
                 if self.save_links and (self.links):
                     with open(self.log_file, 'a') as fh:
                         fh.write('#: ' + dork + "\n")
                         for link in self.links:
                             fh.write(link + "\n")
-                        fh.write("=" * 50 + "\n")
-
+                            response = urllib2.urlopen(link)
+                            fileContent = respond.read()
+                            filename = link[link.rfind("/")+1:]
+                            with open(filename, "w") as fh1:
+                                fh1.write(fileContent)
+                            fh.write("=" * 50 + "\n")
             except KeyboardInterrupt:
                 sys.exit(0)
 
